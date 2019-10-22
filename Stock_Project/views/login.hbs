@@ -1,10 +1,38 @@
 <h1>{{title}}</h1>
 
-<p>Welcome to {{title}}</p>
-
 <form>
     <input type="text" id="user" placeholder="Username"><br>
     <input type="password" id="password" placeholder="Password"><br>
     <input type="button" id="submit" value="Log In">
     <input type="button" id="createAccount" value="Create Account">
 </form>
+
+<div id="error"></div>
+
+<script>
+    var fakeName ="James4"; 
+    var fakePass = "ABC12345";
+    var error = $("#error");
+
+    $("#submit").click(function(){
+        var name = $("#user").val();
+        var pass = $("#password").val();
+
+        if (name == "" || pass =="") {
+            error.html("Fill in all fields!");
+            error.css("color", "red");
+        } else if (name !== fakeName || pass!==fakePass) {
+            error.html("The username and password do not match!");
+            error.css("color", "red");
+        } else if (name == fakeName && pass==fakePass) {
+            error.html("Credentials correct!");
+            error.css("color", "green");
+            // make it pop new page
+        } 
+    });
+
+    $("#createAccount").click(function(){
+        location.href = "newuser.html"
+    });
+
+</script>
