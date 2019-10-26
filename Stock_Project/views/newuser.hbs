@@ -1,0 +1,118 @@
+<h1>{{title}}</h1>
+
+<form>
+    <input type="text" id="name" placeholder="Last, First Name"> Whole Name<br>
+    <input type="text" id="user" placeholder="Username"> Username<br>
+    <input type="text" id="email" placeholder="Email Address"> Email Address<br>
+    <input type="password" id="password" placeholder="Password"> Password<br>
+    <input type="password" id="re-password" placeholder="Re-enter Password"> Re-enter Password<br>
+    <input type="button" id="create" value="Create Account">
+</form>
+
+<div id="error"></div>
+
+<script>
+       
+    var submit = $("#create");
+
+    function checkName() {
+        var error = $("#error");
+        var name = $("#name");
+        var pos = name.val().search(/^[A-Z][a-z]+, [A-Z][a-z]+$/);
+        if (pos == -1) {
+            error.append("<br>The name you type is wrong.");
+            return false;
+        }
+        return true;
+    }
+
+    function checkPass() {
+        var error = $("#error");
+        var pass1 = $("#password");
+        var pass2 = $("#re-password");
+
+        var isTrue = true;
+
+        var pos = pass1.val().search(/ /);
+        if (pos !== -1) {
+            error.append("<br>No spaces allowed in password.");
+            isTrue= false;
+        }
+
+        var pos2 = pass1.val().search(/\d/);
+        if (pos2 == -1) {
+            error.append("<br>You need atleast one number in password.");
+            isTrue= false;
+        }
+
+        if(pass1.val() == "" || pass2.val()=="") {
+            error.append("<br>Type in both password.");
+            isTrue= false;
+        } else if (pass1.val() !== pass2.val()) {
+            error.append("<br>The passwords you type do not match.");
+            isTrue= false;
+        }
+        return isTrue;
+    }
+
+    function checkUser() {
+        var user = $("#user");
+        var error = $("#error");
+        var isTrue = true;
+
+        var pos = user.val().search(/ /);
+        if (pos !== -1) {
+            error.append("<br>Do not include spaces in username.");
+            isTrue = false;
+        }
+
+        var pos2 = user.val().search(/\d/);
+        if (pos2 !== -1) {
+            error.append("<br>You need atleast one number for username.");
+            isTrue = false;
+        }
+
+        var pos3 = user.val().search(/[A-Z]+/);
+        if (pos3 == -1) {
+            error.append("<br>You need atleast one capital letter for username.");
+            isTrue = false;
+        }
+
+        var pos4 = user.val().search(/[a-z]+/);
+        if (pos4 == -1) {
+            error.append("<br>You need atleast one lower letter for username.");
+            isTrue = false;
+        }
+
+        return isTrue;
+    }
+
+    function checkEmail() {
+        var email = $("#email");
+        // this is incomplete
+        var pos = email.val().search(/^[a-z]+@{1}[a-z]+.com+$/);
+
+        console.log(pos);
+    }
+
+    submit.click(function(){
+        var error = $("#error");
+        error.css("color", "red");
+
+        error.html("Please fix these before submission.");
+        var boolName = checkName();
+        var boolPass = checkPass();
+        var boolUser = checkUser();
+        checkEmail();
+
+        if (boolName == true && boolPass == true && boolUser == true) {
+            error.css("color", "green");
+            error.html("Hooray correct submission.");
+            // can submit data
+        }
+
+
+    });
+
+    
+</script>
