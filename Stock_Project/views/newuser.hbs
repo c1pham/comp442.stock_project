@@ -1,11 +1,12 @@
 <h1>{{title}}</h1>
 
 <form>
-    <input type="text" id="name" placeholder="Last, First Name"> Whole Name<br>
-    <input type="text" id="user" placeholder="Username"> Username<br>
-    <input type="text" id="email" placeholder="Email Address"> Email Address<br>
-    <input type="password" id="password" placeholder="Password"> Password<br>
-    <input type="password" id="re-password" placeholder="Re-enter Password"> Re-enter Password<br>
+    <input type="text" id="fName"> First Name<br><br>
+    <input type="text" id="lName"> Last Name<br><br>
+    <input type="text" id="user" > Username<br><br>
+    <input type="text" id="email" > Email Address<br><br>
+    <input type="password" id="password" > Password<br><br>
+    <input type="password" id="re-password" > Re-enter Password<br><br>
     <input type="button" id="create" value="Create Account">
 </form>
 
@@ -14,17 +15,6 @@
 <script>
        
     var submit = $("#create");
-
-    function checkName() {
-        var error = $("#error");
-        var name = $("#name");
-        var pos = name.val().search(/^[A-Z][a-z]+, [A-Z][a-z]+$/);
-        if (pos == -1) {
-            error.append("<br>The name you type is wrong.");
-            return false;
-        }
-        return true;
-    }
 
     function checkPass() {
         var error = $("#error");
@@ -57,30 +47,22 @@
 
     function checkUser() {
         var user = $("#user");
-        var error = $("#error");
         var isTrue = true;
 
         var pos = user.val().search(/ /);
-        if (pos !== -1) {
-            error.append("<br>Do not include spaces in username.");
-            isTrue = false;
-        }
-
-        var pos2 = user.val().search(/\d/);
-        if (pos2 !== -1) {
-            error.append("<br>You need atleast one number for username.");
-            isTrue = false;
-        }
-
+        var pos2 = user.val().search(/\d[0-9]+/);
         var pos3 = user.val().search(/[A-Z]+/);
-        if (pos3 == -1) {
-            error.append("<br>You need atleast one capital letter for username.");
-            isTrue = false;
-        }
-
         var pos4 = user.val().search(/[a-z]+/);
-        if (pos4 == -1) {
-            error.append("<br>You need atleast one lower letter for username.");
+
+        if (pos !== -1) {
+            isTrue = false;
+        } else if (pos2 ==! -1) {
+            isTrue = false;
+        } else if (pos3 == -1) {
+            isTrue = false;
+        } else if (pos4 == -1) {
+            isTrue = false;
+        } else if (user.val().length < 9) {
             isTrue = false;
         }
 
@@ -100,12 +82,16 @@
         error.css("color", "red");
 
         error.html("Please fix these before submission.");
-        var boolName = checkName();
-        var boolPass = checkPass();
         var boolUser = checkUser();
+
+        if (boolUser == false) {
+            error.append("<br>Your username is not in the correct format. Username needs to have atleast 1 capitol letter, 1 lowercase letter, 1 number, be 8 characters long, and have no spaces");
+        }
+
+        var boolPass = checkPass();
         checkEmail();
 
-        if (boolName == true && boolPass == true && boolUser == true) {
+        if (boolPass == true && boolUser == true) {
             error.css("color", "green");
             error.html("Hooray correct submission.");
             // can submit data
