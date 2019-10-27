@@ -20,12 +20,16 @@ router.get('/newuser', function(req, res, next) {
 });
 
 
-/* this mean require multer, we may or may not need this feature
+// this mean require multer, we may or may not need this feature
 // multer helps upload files
 // if user wants profile pic we can use multer to upload the profile
 var multer = require('multer');
-var upload = multer({dest: 'formUpload'}); // this makes an directory named formUpload
-*/
+var upload = multer({dest: 'fileUpload'}); // this makes an directory named formUpload
+
+router.post('/upload', upload.single('file_up'), function(req, res){
+  var message = "";
+  res.send(message)
+});
 
 
 
