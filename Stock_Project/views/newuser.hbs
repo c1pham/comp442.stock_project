@@ -12,6 +12,8 @@
 
 <div id="error"></div>
 
+<div id="result"></div>
+
 <script>
        
     var submit = $("#create");
@@ -103,7 +105,23 @@
         if (boolPass == true && boolUser == true) {
             error.css("color", "green");
             error.html("Hooray correct submission.");
-            // can submit data
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.addEventListener("load", transferComplete);
+            xhttp.addEventListener("error", transferFailed);
+            
+            xhttp.open("POST", "http://localhost:3000/upload");
+            xhttp.send(new FormData(document.getElementById('dataSubmission')));
+        
+
+            function transferComplete(){
+                document.getElementById("result").innerHTML = "Upload file succeed!! " + xhttp.response;
+            }
+            function transferFailed(){
+                document.getElementById("result").innerHTML = "Upload file failed!! ";
+            }
+            // prevent page from refreshing
+            event.preventDefault();
         }
 
 
