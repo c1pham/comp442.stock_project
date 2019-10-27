@@ -1,6 +1,6 @@
 <h1>{{title}}</h1>
 
-<form>
+<form id="dataSubmission">
     <input type="text" id="fName"> First Name<br><br>
     <input type="text" id="lName"> Last Name<br><br>
     <input type="text" id="user" > Username<br><br>
@@ -23,18 +23,20 @@
 
         var isTrue = true;
 
+        // this searches the string to find if there are spaces in the password
         var pos = pass1.val().search(/ /);
         if (pos !== -1) {
             error.append("<br>No spaces allowed in password.");
             isTrue= false;
         }
-
+        // this searches the string to see if there is a number in the password
         var pos2 = pass1.val().search(/\d/);
         if (pos2 == -1) {
             error.append("<br>You need atleast one number in password.");
             isTrue= false;
         }
 
+        // this checks if any of the password fields are empty or if they do not match
         if(pass1.val() == "" || pass2.val()=="") {
             error.append("<br>Type in both password.");
             isTrue= false;
@@ -49,11 +51,17 @@
         var user = $("#user");
         var isTrue = true;
 
+        // checks if there is a space in the user name
         var pos = user.val().search(/ /);
+        // checks if there is atleast one number in the username
         var pos2 = user.val().search(/\d[0-9]+/);
+        // checks if there is atleast one capitol letter in the username
         var pos3 = user.val().search(/[A-Z]+/);
+        // checks if there is atleast one lowercase letter in the username
         var pos4 = user.val().search(/[a-z]+/);
 
+        // if any of these results can confirm an error will return set istrue to false
+        // we interpret this as something is wrong
         if (pos !== -1) {
             isTrue = false;
         } else if (pos2 ==! -1) {
@@ -78,19 +86,20 @@
     }
 
     submit.click(function(){
-        var error = $("#error");
-        error.css("color", "red");
+        var error = $("#error"); 
+        error.css("color", "red"); // set error css to red
 
         error.html("Please fix these before submission.");
         var boolUser = checkUser();
 
-        if (boolUser == false) {
+        if (boolUser == false) { // if there is problem with username send this error message
             error.append("<br>Your username is not in the correct format. Username needs to have atleast 1 capitol letter, 1 lowercase letter, 1 number, be 8 characters long, and have no spaces");
         }
 
         var boolPass = checkPass();
         checkEmail();
 
+        // if all is successful we tell them submission is correct
         if (boolPass == true && boolUser == true) {
             error.css("color", "green");
             error.html("Hooray correct submission.");
