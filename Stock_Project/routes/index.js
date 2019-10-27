@@ -19,11 +19,15 @@ router.get('/newuser', function(req, res, next) {
   res.render('newuser', { title: 'Create Your Account' });
 });
 
-// this mean require multer
+
+/* this mean require multer, we may or may not need this feature
+// multer helps upload files
+// if user wants profile pic we can use multer to upload the profile
 var multer = require('multer');
 var upload = multer({dest: 'formUpload'}); // this makes an directory named formUpload
+*/
 
-// need to update here so multer works to upload form
+
 
 
 module.exports = router;
