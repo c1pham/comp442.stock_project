@@ -19,4 +19,12 @@ router.get('/newuser', function(req, res, next) {
   res.render('newuser', { title: 'Create Your Account' });
 });
 
+// this mean require multer
+var multer = require('multer');
+var upload = multer({dest: 'formUpload'}); // this makes an directory named formUpload
+
+// need to update here so multer works to upload form
+
+
 module.exports = router;
+
