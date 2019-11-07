@@ -1,5 +1,6 @@
 <h1>{{title}}</h1>
 
+<!--form with inputs-->
 <form>
     <input type="text" id="user" placeholder="Username"><br>
     <input type="password" id="password" placeholder="Password"><br>
@@ -7,10 +8,12 @@
     <input type="button" id="createAccount" value="Create Account">
 </form>
 
-<div id="error"></div>
+<div id="error">
+    <!--inner html-->
+</div>
 
 <script>
-    var fakeName ="James4"; 
+    var fakeName = "James4"; 
     var fakePass = "ABC12345";
     var error = $("#error");
 
@@ -20,21 +23,24 @@
         var pass = $("#password").val();
 
 // this will need to be updated to use server, this is fake placeholder
+        // if name or password is empty display this error
         if (name == "" || pass =="") {
             error.html("Fill in all fields!");
             error.css("color", "red");
+            // name or password does not equal the fake username of password make this error
         } else if (name !== fakeName || pass!==fakePass) {
             error.html("The username and password do not match!");
             error.css("color", "red");
+            // if username and password matched fake credentials display this
         } else if (name == fakeName && pass==fakePass) {
             error.html("Credentials correct!");
-            error.css("color", "green");
+            error.css("color", "green"); // two parameters for css makes this a setter
             // make it pop new page
-        } 
+        }
     });
 
     $("#createAccount").click(function(){
-        // Need to make this go to login page
+        // could make an get message to get new website
     });
 
 </script>
