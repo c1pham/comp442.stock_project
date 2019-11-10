@@ -71,13 +71,16 @@ passport.use(new GoogleStrategy({
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
-app.get('/auth/google/googleLog', 
-  passport.authenticate('google', { failureRedirect: "/routes/index" }),
+app.get('/auth/google/googleLog',
+  passport.authenticate('google', { failureRedirect: "/login" }),
   function(req, res) {
-    res.redirect('/routes/index');
+    res.redirect('/login');
   });
 
-app.get
+app.get('/login', function(req, res) {
+	  res.render('login', { title: 'Log Into Your Account' });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
