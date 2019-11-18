@@ -11,12 +11,29 @@
 <div id="error">
     <!--inner html-->
 </div>
+<ul>
+  <li><a href="/auth/logout">Logout</a></li>
+  <li><a href="/auth/login">Login</a></li>
+  <li><a href="/">Homepage</a></li>
+</ul>
+
+<div class="col-sm-4">
+<div class="card social-block">
+<div class="card-body">
+    <a class="btn btn-block" href="/auth/google" role="button">
+    <i class="fab fa-google"></i>
+    Sign up with Google
+    </a>
+</div>
+</div>
+</div>
+
 
 <script>
-    var fakeName = "J"; 
+/*
+    var fakeName = "J";
     var fakePass = "A";
     var error = $("#error");
-
 // this is event handler for when submit button is pressed
     $("#submit").click(function(){
         var name = $("#user").val();
@@ -35,6 +52,7 @@
         } else if (name == fakeName && pass==fakePass) {
             error.html("Credentials correct!");
             error.css("color", "green"); // two parameters for css makes this a setter
+            signOut();
             // make it pop new page
         }
     });
@@ -42,5 +60,5 @@
     $("#createAccount").click(function(){
         // could make an get message to get new website
     });
-
+*/
 </script>

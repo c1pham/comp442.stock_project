@@ -16,7 +16,7 @@
 <div id="result"></div>
 
 <script>
-       
+
     var submit = $("#create");
 
     function checkPass() {
@@ -67,7 +67,7 @@
         // we interpret this as something is wrong
         if (pos !== -1 || pos2 == -1 || pos3 == -1 || pos4 == -1 || user.val().length < 9 ) {
             isTrue = false;
-        } 
+        }
 
         return isTrue;
     }
@@ -75,13 +75,13 @@
     function checkEmail() {
         var email = $("#email");
         // this is incomplete
-        var pos = email.val().search(/^[a-z]+@{1}[a-z]+.com+$/);
+        var pos = email.val().search(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
 
         console.log(pos);
     }
 
     submit.click(function(){
-        var error = $("#error"); 
+        var error = $("#error");
         error.css("color", "red"); // set error css to red
 
         error.html("Please fix these before submission.");
@@ -103,10 +103,10 @@
             var xhttp = new XMLHttpRequest();
             xhttp.addEventListener("load", transferComplete);
             xhttp.addEventListener("error", transferFailed);
-            
+
             xhttp.open("POST", "http://localhost:3000/upload");
             xhttp.send(new FormData(document.getElementById('dataSubmission')));
-        
+
 
             function transferComplete(){
                 document.getElementById("result").innerHTML = "Upload file succeed!! " + xhttp.response;
@@ -122,5 +122,5 @@
 
     });
 
-    
+
 </script>

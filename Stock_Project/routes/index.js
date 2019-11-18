@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const passport = require('passport');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   /* index in render brings up index.hbs and title is the variable passed to index.hbs */
@@ -19,6 +21,31 @@ router.get('/newuser', function(req, res, next) {
   res.render('newuser', { title: 'Create Your Account' });
 });
 
+/* this will need to be changed, instead of passing through title we need to pass through rows from database table
+  router.get('/books', function(req, response, next) {
+    // client object enables issuing SQL queries
+    db.collection('book').find().toArray(function(err, result){
+        if (err) {
+            next(err);
+        }
+        console.log(result);
+        response.render('books',{rows: result});
+        });
+    });
+    Explanation: Given if you have an table in mongodb database called book, you can  find nthis database
+    make it into an array. We can send it through to this handlebars
+
+    so where is says response.render('books',{rows: result});
+    it would need to be changed to response.render('stockView',{rows: result});
+
+*/
+router.get('/stockView', function(req, res, next) {
+  /* newuser in render brings up newuser.hbs and title is the variable passed to newuser.hbs */
+  res.render('stockView', { title: 'Create Your Account' });
+});
+
+
+
 
 // this mean require multer, we may or may not need this feature
 // multer helps upload files
@@ -35,4 +62,3 @@ router.post('/upload', upload.single('file_up'), function(req, res){
 
 
 module.exports = router;
-
