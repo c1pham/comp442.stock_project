@@ -1,26 +1,27 @@
 <h1>{{title}}</h1>
 
 <!--form, could add an post action here-->
-<form id="dataSubmission">
-    <input type="text" id="fName"> First Name<br><br>
-    <input type="text" id="lName"> Last Name<br><br>
-    <input type="text" id="user" > Username<br><br>
-    <input type="text" id="email" > Email Address<br><br>
-    <input type="password" id="password" > Password<br><br>
-    <input type="password" id="re-password" > Re-enter Password<br><br>
-    <input type="button" id="create" value="Create Account">
+<form id="dataSubmission" action="/auth/register" method="POST">
+    <input type="text" id="fName" name="firstName"> First Name<br><br>
+    <input type="text" id="lName" name="lastName"> Last Name<br><br>
+    <input type="text" id="user" name="accountName"> Username<br><br>
+    <input type="text" id="email" name="email"> Email Address<br><br>
+    <input type="password" id="password" name="password"> Password<br><br>
+    <input type="password" id="re-password" name="rePass"> Re-enter Password<br><br>
+    <input type="submit" id="create" value="Create Account">
 </form>
 
 <div id="error"></div>
-
+{{error}}
 <div id="result"></div>
 
 <script>
-
+/*
     var submit = $("#create");
+    var error = $("#error"); // access html object with error ID
+    error.css("color", "red");
 
     function checkPass() {
-        var error = $("#error"); // access html object with error ID
         var pass1 = $("#password"); // acess html object with password ID # means ID
         var pass2 = $("#re-password");
 
@@ -85,7 +86,7 @@
         error.css("color", "red"); // set error css to red
 
         error.html("Please fix these before submission.");
-        var boolUser = checkUser();
+  //      var boolUser = checkUser();
 
         if (boolUser == false) { // if there is problem with username send this error message
             error.append("<br>Your username is not in the correct format. Username needs to have atleast 1 capitol letter, 1 lowercase letter, 1 number, be 8 characters long, and have no spaces");
@@ -95,18 +96,16 @@
         checkEmail();
 
         // if all is successful we tell them submission is correct
-        if (boolPass == true && boolUser == true) {
+        if (boolPass === true) {
             error.css("color", "green");
             error.html("Hooray correct submission.");
 
-            /*
             var xhttp = new XMLHttpRequest();
             xhttp.addEventListener("load", transferComplete);
             xhttp.addEventListener("error", transferFailed);
 
-            xhttp.open("POST", "http://localhost:3000/upload");
+            xhttp.open("POST", "http://localhost:3000/auth/register");
             xhttp.send(new FormData(document.getElementById('dataSubmission')));
-
 
             function transferComplete(){
                 document.getElementById("result").innerHTML = "Upload file succeed!! " + xhttp.response;
@@ -115,12 +114,9 @@
                 document.getElementById("result").innerHTML = "Upload file failed!! ";
             }
             // prevent page from refreshing
-            event.preventDefault();
-            */
+            //event.preventDefault();
         }
-
-
     });
 
-
+*/
 </script>

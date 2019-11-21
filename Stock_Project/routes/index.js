@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+const mongodb = require('mongodb');
 const passport = require('passport');
 
 /* GET home page. */
@@ -39,9 +39,10 @@ router.get('/newuser', function(req, res, next) {
     it would need to be changed to response.render('stockView',{rows: result});
 
 */
+
 router.get('/stockView', function(req, res, next) {
   /* newuser in render brings up newuser.hbs and title is the variable passed to newuser.hbs */
-  res.render('stockView', { title: 'Create Your Account' });
+  res.render('stockView', { title: 'Your stock portfolio' });
 });
 
 

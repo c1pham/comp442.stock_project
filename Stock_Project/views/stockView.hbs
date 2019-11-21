@@ -4,41 +4,45 @@
 
     for example
 
-    router.get('/books', function(req, response, next) {
+    router.get('/books', function(req, res, next) {
     // client object enables issuing SQL queries
     db.collection('book').find().toArray(function(err, result){
         if (err) {
             next(err);
         }
         console.log(result);
-        response.render('books',{rows: result});
+        res.render('books',{rows: result});
         });
-    }); 
+    });
     Explanation: Given if you have an table in mongodb database called book, you can  find nthis database
     make it into an array. We can send it through to this handlebars
 
-    so where is says response.render('books',{rows: result}); 
+    so where is says response.render('books',{rows: result});
     it would need to be changed to response.render('stockView',{rows: result});
 
     we need to connect to database in app.js
 -->
-
+<ul>
+    <li><a href="/auth/logout">Logout</a></li>
+</ul>
 <h2>Purchase History</h2>
 
 <table id="myTable">
   <thead>
-  <tr><th>Date</th><th>Symbol</th><th>Name</th><th>Price Bought</th></tr> 
+  <tr><th>Date</th><th>Symbol</th><th>Name</th><th>Price Bought</th></tr>
   <!--we need to add fifth column which is estimate profit -->
 </thead>
 <tbody>
 {{#each rows}}
-<!--the variable names in the double curly brackets need to match the variable names from the database 
-    for example. 
+
+
+<!--the variable names in the double curly brackets need to match the variable names from the database
+    for example.
     db.book.insertOne(
     {author: "Stephen King", title: "Misery", published: "1988-01-01", pages:300, language: "en"}
     )
     This is an database instruction to add this entry into an book table
-    if we were to use this in this page the variable name nin the curly brackets would need to be 
+    if we were to use this in this page the variable name nin the curly brackets would need to be
     <tr><td> {{ author }}</td>
       <td> {{ title }}</td>
       <td> {{ published }}</td>
@@ -46,15 +50,18 @@
       <td> {{ language }}</td>
     </tr>
 
-    notice how the variable names in the curly brackets match the key value pairs from the database, 
+    notice how the variable names in the curly brackets match the key value pairs from the database,
     it matches the key.
 -->
   <tr><td> {{ date }}</td>
       <td> {{ symbol }}</td>
       <td> {{ name }}</td>
       <td> {{ price }}</td>
+      <td> {{ userName }}</td>
+      <td> {{ googleId }}</td>
       <!--we need to use javascript to add more rows here-->
   </tr>
+
 {{/each}}
 </tbody>
 </table>
