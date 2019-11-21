@@ -1,0 +1,132 @@
+<!--This will not work until we have set up online database portion, however I will leave instructions here
+    We also need to set up an route to this from routes/index.js to pass the rows from database into this
+    page.
+
+    for example
+
+    router.get('/books', function(req, response, next) {
+    // client object enables issuing SQL queries
+    db.collection('book').find().toArray(function(err, result){
+        if (err) {
+            next(err);
+        }
+        console.log(result);
+        response.render('books',{rows: result});
+        });
+    });
+    Explanation: Given if you have an table in mongodb database called book, you can  find nthis database
+    make it into an array. We can send it through to this handlebars
+
+    so where is says response.render('books',{rows: result});
+    it would need to be changed to response.render('stockView',{rows: result});
+
+    we need to connect to database in app.js
+-->
+
+<h1 class="center">Hello User!</h1>
+<br>
+
+<div class="centerBox">
+    <form id="stockSubmit" >
+        <h2>Add Stock Information</h2>
+        <input type="text" id="symbol" placeholder="XXX Symbol"> Stock Symbol<br><br>
+        <input type="text" id="amount"> Amount Bought<br> <br>
+        <input type="text" id="price"> Price Per Stock<br><br>
+        <!--we want this input type to be post -->
+        <input type="button" id="submit" value="value">
+    </form> <br>
+</div> <!--we need to an action to this so that is calls an post method to send to server-->
+
+
+<h2>My Stock Data</h2>
+
+<table id="myTable">
+    <thead>
+        <tr><th>Symbol</th><th>Amount Bought</th><th>Price Bought</th></tr>
+        <!--we need to add fifth column which is estimate profit -->
+    </thead>
+    <tbody>
+        {{#each rows}}
+        <!--the variable names in the double curly brackets need to match the variable names from the database
+            for example.
+            db.book.insertOne(
+            {author: "Stephen King", title: "Misery", published: "1988-01-01", pages:300, language: "en"}
+            )
+            This is an database instruction to add this entry into an book table
+            if we were to use this in this page the variable name nin the curly brackets would need to be
+            <tr><td> {{ author }}</td>
+              <td> {{ title }}</td>
+              <td> {{ published }}</td>
+              <td> {{ pages }}</td>
+              <td> {{ language }}</td>
+            </tr>
+
+            notice how the variable names in the curly brackets match the key value pairs from the database,
+            it matches the key.
+        -->
+        <tr>
+            <td> {{ symbol }}</td>
+            <td> {{ amount }}</td>
+            <td> {{ average }}</td>
+            <!--we need to use javascript to add more rows here-->
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script>$(document).ready(function(){
+    $('#myTable').DataTable();
+
+
+
+    
+ });
+    var symbol = $("#symbol").val();
+    var amount = $("#amount").val();
+    var price = $("#price").val();
+
+    console.log(+amount + +price);
+
+    $("#submit").click(function () {
+
+       
+
+        var symbol = $("#symbol").val(); //creating the variable symbol from user input
+        var amount = $("#amount").val(); //creating the variable amount from user input
+        var price = $("#price").val(); //creating the variable price from user input
+
+        var nStock = new Object(); //creating the object nStock for new stock
+        nStock.symbol = symbol; //creating the property symbol as part of the object nStock, and setting its value to the variable "symbol", the user entered stock symbol
+        nStock.amount = +amount;//creating the property amount as part of the object nStock, and setting its value to the variable "amount" as a number, the user entered stock quantity
+        nStock.price = +price;//creating the property price as part of the object nStock, and setting its value to the variable "price" as a number, the user entered stock price
+
+        /* if (newStock) {
+            insert symbol amount average 
+        } else {
+
+        }*/
+
+        var oStock = new Object(); //creating the object oStock for old stock already in the database
+        oStock.symbol = nStock.symbol; //creating the property symbol as part of the object oStock, and setting its value to nStock.symbol as the two are the same
+        var tempAmount = 20; //creating tempAmount and setting to 20 for the purposes of testing the equation before linking to database. In reality this value needs to be set to the amount of stock already in database for current user entered symbol. If no amount currently exists in the database for this stock this needs to get set to 0.
+        var tempPrice = 14.75; //creating tempPrice and setting to 14.75 for the purposes of testing the equation before linking to database. In reality this value needs to be set to the price of stock already in database for current user entered symbol. If no price currently exists in the database for this stock this needs to get set to 0.
+
+        oStock.amount = tempAmount //setting oStock.amount to tempAmount
+        oStock.price = tempPrice //setting oStock.amount to tempPrice
+        nStock.price = ((nStock.amount * nStock.price) + (oStock.amount * oStock.price)) / (nStock.amount + oStock.amount); //setting nStock.price to the avergage price, this value is what will be sent to the databade
+        nStock.amount = nStock.amount + oStock.amount; //setting nStock amount to the total stocks owned of this symbol. This is what will be sent to the database.
+
+
+        console.log(nStock.symbol);
+        console.log(nStock.amount);
+        console.log(nStock.price);
+
+
+    });
+
+
+
+    </script>
