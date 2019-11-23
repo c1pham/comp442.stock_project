@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
-const User = require('./userModel/user_model')
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('./userModel/user_model');
 //add googleUser logout
 router.get('/logout', (req,res)=>{
   req.logout();
@@ -8,37 +9,18 @@ router.get('/logout', (req,res)=>{
 });
 //get googleUser information
 router.get('/google',passport.authenticate('google',{
-  scope: ['profile']
+  scope: ['email']
 }));
 //reditect user to stockView page or their stock portfolio
 router.get('/google/redirect', passport.authenticate('google'),(req, res)=>{
   res.redirect('/stockView');
 });
-
-//local user login
-router.post('/loging', function(req, res){
-  var accountName = req.body.accountName;
-  var password = req.body.password;
-  User.findOne({accountName: accountName}, function(err, foundUser){
-    if(err){
-      console.log(err);
-      res.redirect('/');
-    } else {
-      if (foundUser){
-        if (foundUser.password === password){
-          res.redirect("/stockView");
-        }
-        else
-        {
-          res.render('login', {title: 'Log Into Your Account', error:'Password Incorrect'});
-        }
-      }
-      else{
-        res.render('login', {title: 'Log Into Your Account', error:'Account has not registered'});
-      }
-    }
-  })
+router.get('/fail', (req, res)=>{
+  res.render('login', {title: 'Log Into Your Account', error:'Account has not registered or Wrong Password'});
 });
+
+router.post('/loging', passport.authenticate('local',{successRedirect:'/stockView', failureRedirect:'/auth/fail'}));
+
 //local user register account
 router.post('/register', function(req,res){
   var rePass = req.body.rePass;
@@ -77,16 +59,12 @@ console.log(email);
 }
 if(emailIsValid(email)){
   User.find({$or:[
-    {accountName: accountName},
     {email: email}
   ]}, function(err, docs){
     if(docs.length!=0){
-      if(docs[0].accountName == accountName){
-        res.render('newuser',{ title: 'Create Your Account' , error:'username Already exist'});
-                }
-                else if(docs[0].email == email){
-                          res.render('newuser',{ title: 'Create Your Account' , error:'Email Already exist'});
-                }
+      if(docs[0].email == email){
+        res.render('newuser',{ title: 'Create Your Account' , error:'Email Already exist'});
+      }
     }
     else{
       new User({
@@ -96,7 +74,7 @@ if(emailIsValid(email)){
         email: email
       }).save().then((newUser)=>{
         console.log('New user Created: '+ newUser);
-        res.redirect('/stockView');
+        res.render('login',{title:'Log Into Your Account', success:'Account has been created. Please login to use!'});
       });
     }
   })

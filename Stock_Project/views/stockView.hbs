@@ -1,41 +1,53 @@
 <!--This will not work until we have set up online database portion, however I will leave instructions here
     We also need to set up an route to this from routes/index.js to pass the rows from database into this
     page.
-
+​
     for example
-
-    router.get('/books', function(req, res, next) {
+​
+    router.get('/books', function(req, response, next) {
     // client object enables issuing SQL queries
     db.collection('book').find().toArray(function(err, result){
         if (err) {
             next(err);
         }
         console.log(result);
-        res.render('books',{rows: result});
+        response.render('books',{rows: result});
         });
     });
     Explanation: Given if you have an table in mongodb database called book, you can  find nthis database
     make it into an array. We can send it through to this handlebars
-
+​
     so where is says response.render('books',{rows: result});
     it would need to be changed to response.render('stockView',{rows: result});
-
+​
     we need to connect to database in app.js
 -->
-<ul>
+​
+<h1 class="center">Hello User!</h1>
+<br>
+​<ul>
     <li><a href="/auth/logout">Logout</a></li>
 </ul>
-<h2>Purchase History</h2>
-
+<div class="centerBox">
+  <form id="stockSubmit" action='/submit' method='POST'>
+    <h2>Add Stock Information</h2>
+      <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
+      <input type="text" id="amount" name='amount'> Amount Bought<br> <br>
+      <input type="text" id="price" name='price'> Price Per Stock<br><br>
+      <input type="submit" id="submit">
+  </form> <br>
+</div> <!--we need to an action to this so that is calls an post method to send to server-->
+​
+​
+<h2>My Stock Data</h2>
+​
 <table id="myTable">
   <thead>
-  <tr><th>Date</th><th>Symbol</th><th>Name</th><th>Price Bought</th></tr>
+  <tr><th>Symbol</th><th>Amount Bought</th><th>Price Bought</th></tr>
   <!--we need to add fifth column which is estimate profit -->
 </thead>
 <tbody>
 {{#each rows}}
-
-
 <!--the variable names in the double curly brackets need to match the variable names from the database
     for example.
     db.book.insertOne(
@@ -49,23 +61,20 @@
       <td> {{ pages }}</td>
       <td> {{ language }}</td>
     </tr>
-
+​
     notice how the variable names in the curly brackets match the key value pairs from the database,
     it matches the key.
 -->
-  <tr><td> {{ date }}</td>
+  <tr>
       <td> {{ symbol }}</td>
-      <td> {{ name }}</td>
-      <td> {{ price }}</td>
-      <td> {{ userName }}</td>
-      <td> {{ googleId }}</td>
+      <td> {{ amount }}</td>
+      <td> {{ average }}</td>
       <!--we need to use javascript to add more rows here-->
   </tr>
-
 {{/each}}
 </tbody>
 </table>
-
+​
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -74,3 +83,4 @@ $(document).ready(function(){
     $('#myTable').DataTable();
 });
 </script>
+Collapse

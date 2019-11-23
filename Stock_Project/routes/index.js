@@ -40,13 +40,13 @@ router.get('/newuser', function(req, res, next) {
 
 */
 
-router.get('/stockView', function(req, res, next) {
-  /* newuser in render brings up newuser.hbs and title is the variable passed to newuser.hbs */
-  res.render('stockView', { title: 'Your stock portfolio' });
+router.get('/stockView', function(req, res){
+  if(req.isAuthenticated()){
+    res.render('stockView', { title: 'Your stock portfolio' });
+  }else{
+    res.redirect('/');
+  }
 });
-
-
-
 
 // this mean require multer, we may or may not need this feature
 // multer helps upload files
