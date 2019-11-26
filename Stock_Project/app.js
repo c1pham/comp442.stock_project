@@ -6,14 +6,15 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const mongo = require('mongodb').MongoClient;
 const User = require('./createPassAuth/userModel/user_model');
-
+const Stock = require('./createPassAuth/userModel/user_model');
 //all the routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const oauthRouter = require('./createPassAuth/auth_route');
 const passSetUp = require('./createPassAuth/googlePassSetup');
-
+const checkStock = require('stock-ticker-symbol');
 //connect to = User database
 mongoose.connect('mongodb://localhost:27017/User', {useNewUrlParser:true, useUnifiedTopology:true});
 
@@ -23,6 +24,15 @@ app.use(cookieSession({
   maxAge: 24*60*60*1000,
   keys:['abcd']
 }));
+/*
+const Schema = mongoose.Schema;
+
+const stockSchema = new Schema({
+  stock: String,
+  prices: Number,
+  quantity: Number
+});
+*/
 
 //initialize passport function for creating and validating googleAccount
 app.use(passport.initialize());
@@ -42,14 +52,132 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', oauthRouter);
 
+function findStock(co, stockSymbol){
+    function isStock(stock){
+      return stock.stock === stockSymbol;
+    };
+  return co.findIndex(isStock);
+}
+
+
 app.post('/submit',function(req, res){
   const stockSymbol = req.body.symbol;
-  const stockPrice = req.body.price;
-  const stockAmount = req.body.amount;
 
-  console.log(req.user);
+  if(checkStock.lookup(stockSymbol) !==null){
+    const co= req.user.CompanyBought;
+    const index = findStock(co, stockSymbol);
+    if(index !==-1){
+      console.log('stock already exist');
+      res.redirect('/stockView');
+    }
+    const stockPrice = req.body.price;
+    const stockAmount = req.body.amount;
+    if(Number(stockPrice) !==0 && Number(stockAmount) !==0 && isNaN(stockPrice)!==true && isNaN(stockAmount)!==true)
+    {
+        var StockInfo = {stock:stockSymbol, prices:stockPrice, quantity: stockAmount};
+          co.push(StockInfo);
+          User.findById(req.user.id, function(err,foundUser){
+            if(err){
+              console.log(err);
+            }
+            else{
+              if(foundUser){
+                foundUser.CompanyBought = co;
+                foundUser.save();
+                res.redirect('/stockView');
+              }
+            }
+          });
+    }
+    else{
+      console.log('One of the field is empty or not a number');
+      res.redirect('/stockView');
+    }
+  }
+  else{
+    console.log('Stock has not found!!!');
+    res.redirect('/stockView');
+  }
+/*
+  function isStock(stock){
+    return stock.stock === stockSymbol;
+  };
+  const index = co.findIndex(isStock);
+*/
 
 });
+app.post('/update', function(req, res){
+  //variables
+  const stockSymbol = req.body.symbol;
+
+  if(checkStock.lookup(stockSymbol)!==null){
+
+    const stockHolder = req.user.CompanyBought;
+    const indexed = findStock(stockHolder, stockSymbol);
+    if(indexed === -1){
+      console.log('The stock update is not found!!!!!!!');
+      res.redirect('/stockView');
+    }
+    const stockPrice = req.body.addPrice;
+    const stockAmount =req.body.addAmount;
+    if(Number(stockPrice) !==0 && Number(stockAmount) !==0 && isNaN(stockPrice)!==true && isNaN(stockAmount)!==true){
+      var priceAdjusted = ((Number(stockAmount)*Number(stockPrice)) + (req.user.CompanyBought[indexed].quantity + req.user.CompanyBought[indexed].prices))/(Number(stockAmount) + req.user.CompanyBought[indexed].quantity);
+      var amountAdjusted = Number(stockAmount) + req.user.CompanyBought[indexed].quantity;
+  //    console.log(Number(stockAmount));
+  //    console.log(req.user.CompanyBought[indexed].prices)
+      //updating the stock
+      stockHolder[indexed].prices = stockHolder[indexed].prices + priceAdjusted;
+      stockHolder[indexed].quantity = Number(amountAdjusted);
+      //Update the stock portfolio
+      User.findById(req.user.id, function(err,foundUser){
+        if(err){
+          console.log(err);
+        }
+        else{
+          if(foundUser){
+            foundUser.CompanyBought = stockHolder;
+            foundUser.save();
+            res.redirect('/stockView');
+          }
+        }
+      });
+    }
+    else{
+      console.log('One of the field is empty or not a number');
+      res.redirect('/stockView');
+    }
+  }
+  else{
+    console.log('Stock not existed!!!');
+    res.redirect('/stockView');
+  }
+});
+
+app.post('/del', function(req, res){
+  const stockSymbol = req.body.symbol;
+  const stockHolder = req.user.CompanyBought;
+  const inde = findStock(stockHolder, stockSymbol);
+  if(inde===-1){
+    console.log('Stock not existed in your profile!!!')
+    res.redirect('/stockView');
+  }
+  else{
+    delete stockHolder[inde];
+    User.findById(req.user.id, function(err,foundUser){
+      if(err){
+        console.log(err);
+      }
+      else{
+        if(foundUser){
+          foundUser.CompanyBought = stockHolder;
+          foundUser.save();
+          res.redirect('/stockView');
+        }
+      }
+    });
+  }
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

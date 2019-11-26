@@ -42,7 +42,7 @@ router.get('/newuser', function(req, res, next) {
 
 router.get('/stockView', function(req, res){
   if(req.isAuthenticated()){
-    res.render('stockView', { title: 'Your stock portfolio' });
+    res.render('stockView',{rows: req.user.CompanyBought, title: 'Your stock portfolio' });
   }else{
     res.redirect('/');
   }

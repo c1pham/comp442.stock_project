@@ -22,7 +22,6 @@
 ​
     we need to connect to database in app.js
 -->
-​
 <h1 class="center">Hello User!</h1>
 <br>
 ​<ul>
@@ -38,12 +37,31 @@
   </form> <br>
 </div> <!--we need to an action to this so that is calls an post method to send to server-->
 ​
+<div class="centerBox">
+  <form id="stockUpdate" action='/update' method='POST'>
+    <h2>Update Stock Information</h2>
+      <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
+      <input type="text" id="amount" name='addAmount'> Amount Bought<br> <br>
+      <input type="text" id="price" name='addPrice'> Price Per Stock<br><br>
+      <input type="submit" id="submit">
+  </form> <br>
+</div> <!--we need to an action to this so that is calls an post method to send to server-->
+
+<div class="centerBox">
+  <form id="Delete Stock" action='/del' method='POST'>
+    <h2>DELETE STOCK INFORMATION</h2>
+      <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
+      <input type="submit" id="submit">
+  </form> <br>
+</div> <!--we need to an action to this so that is calls an post method to send to server-->
+
+​
 ​
 <h2>My Stock Data</h2>
 ​
 <table id="myTable">
   <thead>
-  <tr><th>Symbol</th><th>Amount Bought</th><th>Price Bought</th></tr>
+  <tr><th>Symbol</th><th>Prices</th><th>Quantity</th></tr>
   <!--we need to add fifth column which is estimate profit -->
 </thead>
 <tbody>
@@ -66,9 +84,9 @@
     it matches the key.
 -->
   <tr>
-      <td> {{ symbol }}</td>
-      <td> {{ amount }}</td>
-      <td> {{ average }}</td>
+      <td> {{ stock }}</td>
+      <td> {{ prices }}</td>
+      <td> {{ quantity }}</td>
       <!--we need to use javascript to add more rows here-->
   </tr>
 {{/each}}
@@ -83,4 +101,3 @@ $(document).ready(function(){
     $('#myTable').DataTable();
 });
 </script>
-Collapse
