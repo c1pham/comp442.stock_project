@@ -1,8 +1,23 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: lightgreen;
 }
 
 a {
   color: #00B7FF;
 }
+
+.white {
+  background-color: white;
+}
+
+.main {
+  background-color: lightgreen;
+}
+
+
+.center {
+  text-align: center;
+}
+
