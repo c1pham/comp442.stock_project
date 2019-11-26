@@ -22,46 +22,53 @@
 ​
     we need to connect to database in app.js
 -->
+
 <h1 class="center">Hello User!</h1>
 <br>
 ​<ul>
-    <li><a href="/auth/logout">Logout</a></li>
+    <li><button><a href="/auth/logout">Logout</a></button></li>
 </ul>
-<div class="centerBox">
-  <form id="stockSubmit" action='/submit' method='POST'>
-    <h2>Add Stock Information</h2>
-      <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
-      <input type="text" id="amount" name='amount'> Amount Bought<br> <br>
-      <input type="text" id="price" name='price'> Price Per Stock<br><br>
-      <input type="submit" id="submit">
-  </form> <br>
-</div> <!--we need to an action to this so that is calls an post method to send to server-->
-​
-<div class="centerBox">
-  <form id="stockUpdate" action='/update' method='POST'>
-    <h2>Update Stock Information</h2>
-      <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
-      <input type="text" id="amount" name='addAmount'> Amount Bought<br> <br>
-      <input type="text" id="price" name='addPrice'> Price Per Stock<br><br>
-      <input type="submit" id="submit">
-  </form> <br>
-</div> <!--we need to an action to this so that is calls an post method to send to server-->
 
-<div class="centerBox">
-  <form id="Delete Stock" action='/del' method='POST'>
-    <h2>DELETE STOCK INFORMATION</h2>
-      <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
-      <input type="submit" id="submit">
-  </form> <br>
-</div> <!--we need to an action to this so that is calls an post method to send to server-->
+<main class="container">
+  <div class="row">
+    <div class="col-lg-6"> <!--change this to update stock-->
+      <form id="stockSubmit" action='/submit' method='POST'>
+        <h2>Add Stock Information</h2>
+          <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
+          <input type="text" id="amount" placeholder="Ex. 10" name='amount'> Amount Bought<br> <br>
+          <input type="text" id="price" placeholder="Ex. 100.13" name='price'> Price Per Stock<br><br>
+          <input type="submit" id="submit">
+      </form> <br>
+    </div> <!--we need to an action to this so that is calls an post method to send to server-->
+    ​
+    <!-- 
+    <div class="col-lg-4">
+      <form id="stockUpdate" action='/update' method='POST'>
+        <h2>Update Stock Information</h2>
+          <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
+          <input type="text" id="amount" name='addAmount'> Amount Bought<br> <br>
+          <input type="text" id="price" name='addPrice'> Price Per Stock<br><br>
+          <input type="submit" id="submit">
+      </form> <br>
+    </div> -->
+    
 
+    <div class="col-lg-6">
+      <form id="Delete Stock" action='/del' method='POST'>
+        <h2>Delete Stock Information</h2>
+          <input type="text" id="symbol" placeholder="XXX Symbol" name='symbol'> Stock Symbol<br><br>
+          <input type="text" id="amount" placeholder="Ex. 10" name='amount'> Amount Remove<br><br>
+          <input type="submit" id="submit">
+      </form> <br>
+    </div> <!--we need to an action to this so that is calls an post method to send to server-->
+  </div>
+​</main>
 ​
-​
-<h2>My Stock Data</h2>
+<h2 class="center">My Stock Data</h2>
 ​
 <table id="myTable">
   <thead>
-  <tr><th>Symbol</th><th>Prices</th><th>Quantity</th></tr>
+  <tr><th class="center">Symbol</th><th class="center">Prices</th><th class="center">Quantity</th></tr>
   <!--we need to add fifth column which is estimate profit -->
 </thead>
 <tbody>
@@ -84,14 +91,19 @@
     it matches the key.
 -->
   <tr>
-      <td> {{ stock }}</td>
-      <td> {{ prices }}</td>
-      <td> {{ quantity }}</td>
+      <td class="center"> {{ stock }}</td> 
+      <td class="center"> {{ prices }}</td> 
+      <td class="center"> {{ quantity }}</td> 
       <!--we need to use javascript to add more rows here-->
   </tr>
+
+
 {{/each}}
 </tbody>
 </table>
+
+
+
 ​
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
