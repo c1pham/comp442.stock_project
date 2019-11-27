@@ -8,8 +8,9 @@ a {
   color: #00B7FF;
 }
 
-.white {
+.whiteBox {
   background-color: white;
+ 
 }
 
 .main {
@@ -20,4 +21,3 @@ a {
 .center {
   text-align: center;
 }
-
