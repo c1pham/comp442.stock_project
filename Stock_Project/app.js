@@ -59,17 +59,43 @@ function findStock(co, stockSymbol){
   return co.findIndex(isStock);
 }
 
-
 app.post('/submit',function(req, res){
   const stockSymbol = req.body.symbol;
 
-  if(checkStock.lookup(stockSymbol) !==null){
-    const co= req.user.CompanyBought;
-    const index = findStock(co, stockSymbol);
-    if(index !==-1){
-      console.log('stock already exist');
+  const co= req.user.CompanyBought;
+  const index = findStock(co, stockSymbol);
+  if(index !==-1){
+  const stockPrice = req.body.price;
+  const stockAmount =req.body.amount;
+    if(Number(stockPrice) !==0 && Number(stockAmount) !==0 && isNaN(stockPrice)!==true && isNaN(stockAmount)!==true){
+      var priceAdjusted = ((Number(stockAmount)*Number(stockPrice)) + (req.user.CompanyBought[index].quantity + req.user.CompanyBought[index].prices))/(Number(stockAmount) + req.user.CompanyBought[index].quantity);
+      var amountAdjusted = Number(stockAmount) + req.user.CompanyBought[index].quantity;
+    //    console.log(Number(stockAmount));
+    //    console.log(req.user.CompanyBought[indexed].prices)
+      //updating the stock
+      co[index].prices = co[index].prices + priceAdjusted;
+      co[index].quantity = Number(amountAdjusted);
+      //Update the stock portfolio
+      User.findById(req.user.id, function(err,foundUser){
+        if(err){
+          console.log(err);
+        }
+        else{
+          if(foundUser){
+            foundUser.CompanyBought = co;
+            foundUser.save();
+            res.redirect('/stockView');
+          }
+        }
+      });
+    }
+    else{
+      console.log('Number error');
       res.redirect('/stockView');
     }
+  }
+  else{
+  if(checkStock.lookup(stockSymbol) !==null){
     const stockPrice = req.body.price;
     const stockAmount = req.body.amount;
     if(Number(stockPrice) !==0 && Number(stockAmount) !==0 && isNaN(stockPrice)!==true && isNaN(stockAmount)!==true)
@@ -98,6 +124,7 @@ app.post('/submit',function(req, res){
     console.log('Stock has not found!!!');
     res.redirect('/stockView');
   }
+}
 /*
   function isStock(stock){
     return stock.stock === stockSymbol;
@@ -106,53 +133,6 @@ app.post('/submit',function(req, res){
 */
 
 });
-app.post('/update', function(req, res){
-  //variables
-  const stockSymbol = req.body.symbol;
-
-  if(checkStock.lookup(stockSymbol)!==null){
-
-    const stockHolder = req.user.CompanyBought;
-    const indexed = findStock(stockHolder, stockSymbol);
-    if(indexed === -1){
-      console.log('The stock update is not found!!!!!!!');
-      res.redirect('/stockView');
-    }
-    const stockPrice = req.body.addPrice;
-    const stockAmount =req.body.addAmount;
-    if(Number(stockPrice) !==0 && Number(stockAmount) !==0 && isNaN(stockPrice)!==true && isNaN(stockAmount)!==true){
-      var priceAdjusted = ((Number(stockAmount)*Number(stockPrice)) + (req.user.CompanyBought[indexed].quantity + req.user.CompanyBought[indexed].prices))/(Number(stockAmount) + req.user.CompanyBought[indexed].quantity);
-      var amountAdjusted = Number(stockAmount) + req.user.CompanyBought[indexed].quantity;
-  //    console.log(Number(stockAmount));
-  //    console.log(req.user.CompanyBought[indexed].prices)
-      //updating the stock
-      stockHolder[indexed].prices = stockHolder[indexed].prices + priceAdjusted;
-      stockHolder[indexed].quantity = Number(amountAdjusted);
-      //Update the stock portfolio
-      User.findById(req.user.id, function(err,foundUser){
-        if(err){
-          console.log(err);
-        }
-        else{
-          if(foundUser){
-            foundUser.CompanyBought = stockHolder;
-            foundUser.save();
-            res.redirect('/stockView');
-          }
-        }
-      });
-    }
-    else{
-      console.log('One of the field is empty or not a number');
-      res.redirect('/stockView');
-    }
-  }
-  else{
-    console.log('Stock not existed!!!');
-    res.redirect('/stockView');
-  }
-});
-
 app.post('/del', function(req, res){
   const stockSymbol = req.body.symbol;
   const stockHolder = req.user.CompanyBought;
@@ -162,7 +142,14 @@ app.post('/del', function(req, res){
     res.redirect('/stockView');
   }
   else{
-    delete stockHolder[inde];
+    if (isNaN(req.body.amount)!==true)
+    {
+      stockHolder[inde].quantity = stockHolder[inde].quantity - req.body.amount;
+      if(stockHolder[inde].quantity<=0){
+        delete stockHolder[inde];
+      }
+    }
+
     User.findById(req.user.id, function(err,foundUser){
       if(err){
         console.log(err);
