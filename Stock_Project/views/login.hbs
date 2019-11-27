@@ -1,36 +1,40 @@
-<h1>{{title}}</h1>
 
+ <link rel='stylesheet' href='/stylesheets/login.css'/>
 <!--form with inputs-->
-<form action="/auth/loging" method="POST">
-    <input type="text" id="user" placeholder="Email" name="email"><br>
-    <input type="password" id="password" placeholder="Password" name="password"><br>
-    <input type="submit" id="submit" value="Log In">
-    <a href="/newuser"><input type="button" id="createAccount" value="Create Account"></a>
-</form>
+<main class="text-center">
+    <form class="form-signin" action="/auth/loging" method="POST">
+        <h1>{{title}}</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Log Into Your Account</h1>
+        <input class="form-control" type="text" id="user" placeholder="Email" name="email"><br>
+        <input class="form-control" type="password" id="password" placeholder="Password" name="password"><br>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" id="submit" value="Log In"> <br>
+        <a href="/newuser"><input class="btn btn-lg btn-primary btn-block" type="button" id="createAccount" value="Create Account"></a> <br>
 
-<div id="error" name="error">
-    {{error}}
-</div>
+        <!--<a class="btn btn-lg btn-primary btn-block" href="/">Homepage</a> <br>-->
 
-<div id="success" name="success">
-    {{success}}
-</div>
+        <div class="card social-block ">
+            <div class="card-body">
+                <a class="btn btn-block" href="/auth/google" role="button">
+                <i class="fab fa-google"></i>
+                Sign up with Google
+                </a>
+            </div>
+        </div>
 
+        <div id="error" name="error">
+        {{error}}
+    </div>
 
-<ul>
-  <li><a href="/">Homepage</a></li>
-</ul>
+    <div id="success" name="success">
+        {{success}}
+    </div>
+    </form>
 
-<div class="col-sm-4">
-<div class="card social-block">
-<div class="card-body">
-    <a class="btn btn-block" href="/auth/google" role="button">
-    <i class="fab fa-google"></i>
-    Sign up with Google
-    </a>
-</div>
-</div>
-</div>
+    
+
+    
+
+</main>
 <script>
     var error = $("#error");
     error.css("color", "red");
