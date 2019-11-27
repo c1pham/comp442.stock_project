@@ -59,6 +59,7 @@ passport.use(
       } else{
         //if user is new then create account for them
           new User({
+            userName: profile.displayName,
             email:profile.emails[0].value,
             googleId:profile.id
           }).save().then((newUser)=>{

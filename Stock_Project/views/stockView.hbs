@@ -23,7 +23,7 @@
     we need to connect to database in app.js
 -->
 
-<h1 class="center">Hello User!</h1>
+<h1 class="center" name='username'>Hello {{User}}!</h1>
 <br>
 <button id="logout">Logout</button>
 
@@ -44,7 +44,7 @@
       </form> <br>
     </div> <!--we need to an action to this so that is calls an post method to send to server-->
     ​
-    <!-- 
+    <!--
     <div class="col-lg-4">
       <form id="stockUpdate" action='/update' method='POST'>
         <h2>Update Stock Information</h2>
@@ -98,9 +98,9 @@
     it matches the key.
 -->
   <tr>
-      <td class="center"> {{ stock }}</td> 
-      <td class="center"> {{ prices }}</td> 
-      <td class="center"> {{ quantity }}</td> 
+      <td class="center"> {{ stock }}</td>
+      <td class="center"> {{ prices }}</td>
+      <td class="center"> {{ quantity }}</td>
       <!--we need to use javascript to add more rows here-->
   </tr>
 
@@ -124,4 +124,3 @@ $(document).ready(function(){
     });
 });
 </script>
-

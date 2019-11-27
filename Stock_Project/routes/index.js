@@ -44,7 +44,15 @@ router.get('/newuser', function(req, res, next) {
 
 router.get('/stockView', function(req, res){
   if(req.isAuthenticated()){
-    res.render('stockView',{rows: req.user.CompanyBought, title: 'Your stock portfolio' });
+    var user =""
+    if (req.user.userName === undefined)
+    {
+      user = "User"
+    }
+    else{
+      user = req.user.userName;
+    }
+    res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio' });
   }else{
     res.redirect('/');
   }
@@ -65,4 +73,3 @@ router.post('/upload', upload.single('file_up'), function(req, res){
 
 
 module.exports = router;
-
