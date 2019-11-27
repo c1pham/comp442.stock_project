@@ -6,13 +6,15 @@ const passport = require('passport');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   /* index in render brings up index.hbs and title is the variable passed to index.hbs */
-  res.render('index', { title: 'Stock Tracker Application' });
+  //res.render('index', { title: 'Stock Tracker Application' });
+  // homepage is unneccesary
+  res.render('login', { title: 'Stock Tracker Application' });
 });
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
   /* login in render brings up login.hbs and title is the variable passed to login.hbs */
-  res.render('login', { title: 'Log Into Your Account' });
+  res.render('login', { title: 'Stock Tracker Application' });
 });
 
 /* GET create new account page. */
@@ -63,3 +65,4 @@ router.post('/upload', upload.single('file_up'), function(req, res){
 
 
 module.exports = router;
+
