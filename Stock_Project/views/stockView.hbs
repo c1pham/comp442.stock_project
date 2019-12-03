@@ -127,12 +127,6 @@ var error = $("#error");
 error.css("color", "red");
 
 $(document).ready(function(){
-    $('#myTable').DataTable();
-
-    $("#logout").click(function(){
-      location.replace("/login");
-    });
-
     var cells = $(".cellPercent");
     console.log(cells)
     console.log(cells.length)
@@ -144,6 +138,7 @@ $(document).ready(function(){
 
       if (parseFloat(cells[i].innerHTML) > 0) {
         console.log("green");
+        //document.getElementsByClassName("cellPercent")[i].prepend("+");
 
         document.getElementsByClassName("cellPercent")[i].innerHTML = "+" + document.getElementsByClassName("cellPercent")[i].innerHTML.trim();
         
@@ -155,5 +150,14 @@ $(document).ready(function(){
       }
     }
 
+
+    $('#myTable').DataTable();
+
+    $("#logout").click(function(){
+      location.replace("/login");
+    });
+
+
 });
 </script>
+
