@@ -144,7 +144,8 @@ $(document).ready(function(){
 
       if (parseFloat(cells[i].innerHTML) > 0) {
         console.log("green");
-        document.getElementsByClassName("cellPercent")[i].prepend("+");
+
+        document.getElementsByClassName("cellPercent")[i].innerHTML = "+" + document.getElementsByClassName("cellPercent")[i].innerHTML.trim();
         
         document.getElementsByClassName("cellPercent")[i].style.color = "green";
       } else {
