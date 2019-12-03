@@ -72,7 +72,7 @@
 ​</main>
 
 <form id="Update Stock" action='/update' method='POST'>
-  <input type='submit' id='submit'>
+  <input type='submit' value="Update Percent Change" id='submit'>
 </form>
 
 ​<div id="error" name="error">{{error}}</div>
@@ -81,7 +81,7 @@
 ​
 <table id="myTable">
   <thead>
-  <tr><th class="center">Symbol</th><th class="center">Prices</th><th class="center">Quantity</th><th class="center">percentInterest</th></tr>
+  <tr><th class="center">Symbol</th><th class="center">Prices</th><th class="center">Quantity</th><th class="center">Percent Change</th></tr>
   <!--we need to add fifth column which is estimate profit -->
 </thead>
 <tbody>
@@ -107,7 +107,7 @@
       <td class="center"> {{ stock }}</td>
       <td class="center"> {{ prices }}</td>
       <td class="center"> {{ quantity }}</td>
-      <td class="center"> {{ percentInterest }}</td>
+      <td class="cellPercent"> {{ percentInterest }} %</td>
       <!--we need to use javascript to add more rows here-->
   </tr>
 
@@ -125,11 +125,34 @@
 <script>
 var error = $("#error");
 error.css("color", "red");
+
 $(document).ready(function(){
     $('#myTable').DataTable();
 
     $("#logout").click(function(){
       location.replace("/login");
     });
+
+    var cells = $(".cellPercent");
+    console.log(cells)
+    console.log(cells.length)
+
+    for (i = 0 ; i < cells.length; i++) {
+      
+
+      console.log(cells[i].html);
+
+      if (parseFloat(cells[i].innerHTML) > 0) {
+        console.log("green");
+        document.getElementsByClassName("cellPercent")[i].prepend("+");
+        
+        document.getElementsByClassName("cellPercent")[i].style.color = "green";
+      } else {
+        console.log("red");
+        
+        document.getElementsByClassName("cellPercent")[i].style.color = "red";
+      }
+    }
+
 });
 </script>
