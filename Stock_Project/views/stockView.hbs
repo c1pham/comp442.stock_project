@@ -1,27 +1,3 @@
-<!--This will not work until we have set up online database portion, however I will leave instructions here
-    We also need to set up an route to this from routes/index.js to pass the rows from database into this
-    page.
-​
-    for example
-​
-    router.get('/books', function(req, response, next) {
-    // client object enables issuing SQL queries
-    db.collection('book').find().toArray(function(err, result){
-        if (err) {
-            next(err);
-        }
-        console.log(result);
-        response.render('books',{rows: result});
-        });
-    });
-    Explanation: Given if you have an table in mongodb database called book, you can  find nthis database
-    make it into an array. We can send it through to this handlebars
-​
-    so where is says response.render('books',{rows: result});
-    it would need to be changed to response.render('stockView',{rows: result});
-​
-    we need to connect to database in app.js
--->
 
 <h1 class="center" name='username'>Hello {{User}}!</h1>
 <br>
@@ -42,18 +18,8 @@
           <input type="text" id="price" placeholder="Ex. 100.13" name='price'><br><br>
           <input type="submit" id="submit">
       </form> <br>
-    </div> <!--we need to an action to this so that is calls an post method to send to server-->
+    </div> 
     ​
-    <!--
-    <div class="col-lg-4">
-      <form id="stockUpdate" action='/update' method='POST'>
-        <h2>Update Stock Information</h2>
-          <input type="text" id="symbol" placeholder="Symbol" name='symbol'> Stock Symbol<br><br>
-          <input type="text" id="amount" name='addAmount'> Amount Bought<br> <br>
-          <input type="text" id="price" name='addPrice'> Price Per Stock<br><br>
-          <input type="submit" id="submit">
-      </form> <br>
-    </div> -->
     <div class="col-lg-2"></div>
 
     <div class="col-lg-4 whiteBox">
@@ -66,7 +32,6 @@
           <input type="submit" id="submit">
       </form> <br>
     </div>
-     <!--we need to an action to this so that is calls an post method to send to server-->
      <div class="col-lg-1"></div>
   </div>
 ​</main>
@@ -81,8 +46,7 @@
 ​
 <table id="myTable">
   <thead>
-  <tr><th class="center">Symbol</th><th class="center">Prices</th><th class="center">Quantity</th><th class="center">Percent Change</th></tr>
-  <!--we need to add fifth column which is estimate profit -->
+  <tr><th class="center">Symbol</th><th class="center">Average Price</th><th class="center">Quantity</th><th class="center">Percent Change</th></tr>
 </thead>
 <tbody>
 {{#each rows}}
@@ -111,14 +75,10 @@
       <!--we need to use javascript to add more rows here-->
   </tr>
 
-
 {{/each}}
 </tbody>
 </table>
 
-
-
-​
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -132,32 +92,24 @@ $(document).ready(function(){
     console.log(cells.length)
 
     for (i = 0 ; i < cells.length; i++) {
-      
-
       console.log(cells[i].html);
-
       if (parseFloat(cells[i].innerHTML) > 0) {
         console.log("green");
-        //document.getElementsByClassName("cellPercent")[i].prepend("+");
-
-        document.getElementsByClassName("cellPercent")[i].innerHTML = "+" + document.getElementsByClassName("cellPercent")[i].innerHTML.trim();
-        
-        document.getElementsByClassName("cellPercent")[i].style.color = "green";
+        var cell = document.getElementsByClassName("cellPercent")[i];
+        cell.innerHTML = "+" + parseFloat(cell.innerHTML.trim()).toFixed(2);
+        cell.style.color = "green";
       } else {
         console.log("red");
-        
-        document.getElementsByClassName("cellPercent")[i].style.color = "red";
+        var cell = document.getElementsByClassName("cellPercent")[i];
+        cell.innerHTML = parseFloat(cell.innerHTML.trim()).toFixed(2);
+        cell.style.color = "red";
       }
     }
-
 
     $('#myTable').DataTable();
 
     $("#logout").click(function(){
       location.replace("/login");
     });
-
-
 });
 </script>
-
