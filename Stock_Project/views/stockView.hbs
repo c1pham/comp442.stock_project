@@ -50,26 +50,9 @@
 </thead>
 <tbody>
 {{#each rows}}
-<!--the variable names in the double curly brackets need to match the variable names from the database
-    for example.
-    db.book.insertOne(
-    {author: "Stephen King", title: "Misery", published: "1988-01-01", pages:300, language: "en"}
-    )
-    This is an database instruction to add this entry into an book table
-    if we were to use this in this page the variable name nin the curly brackets would need to be
-    <tr><td> {{ author }}</td>
-      <td> {{ title }}</td>
-      <td> {{ published }}</td>
-      <td> {{ pages }}</td>
-      <td> {{ language }}</td>
-    </tr>
-​
-    notice how the variable names in the curly brackets match the key value pairs from the database,
-    it matches the key.
--->
   <tr>
       <td class="center"> {{ stock }}</td>
-      <td class="center"> {{ prices }}</td>
+      <td class="cellPrices"> {{ prices }}</td>
       <td class="center"> {{ quantity }}</td>
       <td class="cellPercent"> {{ percentInterest }} %</td>
       <!--we need to use javascript to add more rows here-->
@@ -88,22 +71,24 @@ error.css("color", "red");
 
 $(document).ready(function(){
     var cells = $(".cellPercent");
-    console.log(cells)
-    console.log(cells.length)
 
     for (i = 0 ; i < cells.length; i++) {
       console.log(cells[i].html);
       if (parseFloat(cells[i].innerHTML) > 0) {
-        console.log("green");
         var cell = document.getElementsByClassName("cellPercent")[i];
         cell.innerHTML = "+" + parseFloat(cell.innerHTML.trim()).toFixed(2);
         cell.style.color = "green";
       } else {
-        console.log("red");
         var cell = document.getElementsByClassName("cellPercent")[i];
         cell.innerHTML = parseFloat(cell.innerHTML.trim()).toFixed(2);
         cell.style.color = "red";
       }
+    }
+
+    var priceCells = $(".cellPrices");
+    for (i = 0 ; i < priceCells.length; i++) {
+      var cell = priceCells[i];
+      cell.innerHTML = parseFloat(cell.innerHTML.trim()).toFixed(2);
     }
 
     $('#myTable').DataTable();
