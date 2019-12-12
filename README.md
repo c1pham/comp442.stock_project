@@ -1,1 +1,1 @@
-# comp442.stock_project. This is an Object Oriented Software Engineering project. The project is now complete and running from https://sheltered-brook-85631.herokuapp.com/
+# comp442.stock_project. This is an Object Oriented Software Engineering project. The project is now complete and running from https://sheltered-brook-85631.herokuapp.com/ Documentation can be viewed at https://docs.google.com/document/d/1yvErKr5SBl0dF1w9Jk-x-phUyQTO_GQh8yTRMwdujoA/edit?usp=sharing
