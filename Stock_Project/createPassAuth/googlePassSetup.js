@@ -1,3 +1,4 @@
+//initialize all the packages and router for script to work
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
@@ -15,43 +16,19 @@ passport.use(User.createStrategy());
 passport.serializeUser((user, done)=>{
   done(null, user.id);
 });
+
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
   });
 });
 
-//old code for localstrategy authentication. In case the new localstrategy does not work there is another subtitution.
-/*
-passport.use(new LocalStrategy({
-  usernameField:'email',
-  passwordField:'password'
-},
-  function(email, password, done){
-    User.findOne({
-      email: email
-    },function(err, user){
-      if(err){
-        return done(err);
-      }
-      if(!user){
-        return done(null, false);
-      }
-      if(user.password !=password){
-        return done(null, false);
-      }
-      return done(null, user);
-    });
-  }
-));
-*/
-
 //if new user then create googleUserSchema
 //create new googleUser account
 passport.use(
   new GoogleStrategy({
   //callbackURL for redirecting the website to another router
-  // callbackURL:'http://localhost:3000/auth/google/redirect',
+  //callbackURL:'http://localhost:3000/auth/google/redirect',
   callbackURL:'https://sheltered-brook-85631.herokuapp.com/auth/google/redirect',
     clientID:process.env.CLIENT_ID,
     clientSecret:process.env.CLIENT_SECRET

@@ -1,13 +1,28 @@
 import sys
-from yahoo_fin.stock_info import get_live_price
-
+from WorldTradingData import WorldTradingData as wtd
 
 if __name__=="__main__":
-	log = []
+	#retrieve token from world trading data
+	token = wtd("oNMltusmco1j86HEtjeabrsabdOGwYRWOKpq0zIKisnPFTKhNa0jJQ1WjvGv")
+
+	#retrive all the stocks from the app.js
 	st = sys.argv[1]
+
+	#turn the inputs into an array strings
 	st_list = st.split(',')
+
+	#initalize arrays
+	price_holder = []
+	temp = []
+
+	#loop over each stock to get current price and push them into price_holder
 	for i in st_list:
-		log.append(get_live_price(i))
-	print(log)
-	#print(st);
-	#sys.stdout.flush()
+		#search real life stock price
+		temp = token.stock_search(i);
+		temp = temp['data']
+
+		#push the current price into price_holder
+		price_holder.append(temp[0]['price'])
+		
+	#return list of current price to the app.js through print command
+	print(price_holder)

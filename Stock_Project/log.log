@@ -1,0 +1,80 @@
+2d5b051 was Thanh Le, 7 minutes ago, message: Fixing the routing directory from local to worldwide
+8e5ae5e was Thanh Le, 7 minutes ago, message: Fixing the stockView display
+b0724a5 was Thanh Le, 27 hours ago, message: fixing the callbackUrl
+b1c5ce8 was Thanh Le, 27 hours ago, message: Chris code for displaying stockInterest
+b217a2c was Thanh Le, 30 hours ago, message: Fix logout button
+096615b was Thanh Le, 30 hours ago, message: fix the stock interest equation
+a204a0d was Thanh Le, 30 hours ago, message: fixing the callback url from local to worldwide
+4cde0d5 was Thanh Le, 30 hours ago, message: changing the position of redirecting route logic inside update function
+210140c was Thanh Le, 30 hours ago, message: add routing directory when update function is finished
+dbfcda1 was Thanh Le, 30 hours ago, message: fix python requirement add more packages
+b9ad5ef was Thanh Le, 30 hours ago, message: fix python requirement
+36486bc was Thanh Le, 31 hours ago, message: change from using api to using a python library that uses yahoo finance api
+bffb0ed was Thanh Le, 3 days ago, message: Fix the callBackUrl in googlePass
+0f70c36 was Thanh Le, 3 days ago, message: Fix bug in update functiono where it cause the webpage crash
+da54894 was Thanh Le, 4 days ago, message: Add some comments to the projects
+70a4fbe was Thanh Le, 4 days ago, message: Add if sentence to check the amount stock is a whole number
+b008fc4 was Thanh Le, 4 days ago, message: fix the stock name attribute in app.js where user input same stock name but lowercase instead uppercase
+05b7b3d was Thanh Le, 4 days ago, message: fully working update function. However, webpage need reload to update
+7cf4b21 was Thanh Le, 4 days ago, message: delete more extra parameter quotation in update function in line 253
+22341a7 was Thanh Le, 4 days ago, message: delete extra parameter quotation in update function
+6737b03 was Thanh Le, 4 days ago, message: fix request function inside update function where it make the whole page crashed.
+1965ae8 was Thanh Le, 4 days ago, message: fix request function inside update function. Now request function will not return anything
+72bf0d7 was Thanh Le, 4 days ago, message: change update function on line 223. change from constance variable to variable.
+b1f07d6 was Thanh Le, 4 days ago, message: change update function on line 250.
+f72229b was Thanh Le, 4 days ago, message: fixing undefined property in update function
+8406a0e was Thanh Le, 4 days ago, message: Fix bug in update function where user has to press submit button twice in order to update the change.
+ee27572 was Thanh Le, 4 days ago, message: Testing saving logic in update function
+f92d3c5 was Thanh Le, 4 days ago, message: debugging the update function(4th) the new information does not save in database change from line 250 ->255. Also, change the saving logic
+e337e6a was Thanh Le, 4 days ago, message: debugging the update function(4th) the new information does not save in database change from line 250 ->255
+005f40d was Thanh Le, 4 days ago, message: debugging the update function(3rd) the new information does not save in database
+eb8d93e was Thanh Le, 4 days ago, message: debugging the update function(2nd) the new information does not save in database
+827b9b7 was Thanh Le, 4 days ago, message: debugging the update function!
+632200c was Thanh Le, 4 days ago, message: fixing update function; rearrange the code! on line 244
+969e95f was Thanh Le, 4 days ago, message: fixing update function method add co variable on line 229.
+2865aab was Thanh Le, 4 days ago, message: fixing update function where It print infinity on the website
+6e7396f was Thanh Le, 4 days ago, message: change stockSchema attribute.
+12d616b was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.(7th)
+8d4f38b was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.(6th)
+563ce88 was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.(5th) change line 246 where webpage frozen.
+ecd8a98 was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.(4th) change line 245.
+76f77bc was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.(3rd) change line 135.
+517644b was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.(2nd) change line 238.
+ee8d778 was Thanh Le, 4 days ago, message: fixing bug that make website cannot display users stock percentInterest.
+42358c2 was Thanh Le, 4 days ago, message: some minor fix where the update function cannot find the user's stock porfolio.
+d4e7054 was Thanh Le, 4 days ago, message: fix update function where it say i is undefined.
+f5302fe was Thanh Le, 4 days ago, message: add update function to the website.
+5cad1ed was Thanh Le, 4 days ago, message: testing update function. test whether user actually have any stock in their porfolio.(2nd try).
+982e2ed was Thanh Le, 4 days ago, message: testing update function. test whether user actually have any stock in their porfolio.
+55fe542 was Thanh Le, 4 days ago, message: testing update function. looping over user stock porfolio.
+00e2e7e was Thanh Le, 4 days ago, message: delete unecessary packages, testing update function.
+94bf966 was Thanh Le, 4 days ago, message: hide the google authentication api for security in googleAuthentication.js file
+37ba55c was Thanh Le, 4 days ago, message: change line 74 where the function save human-readable-password inside the database
+7bdc909 was Thanh Le, 4 days ago, message: Replace simple local strategy with mongoose local strategy passport where it use hash and salt method to encrypt passport.
+afea124 was Thanh Le, 5 days ago, message: more error message when user do not input any number in remove amount field. fix line 175(3rd try) change from null to empty
+62a25df was Thanh Le, 5 days ago, message: more error message when user do not input any number in remove amount field. fix line 175
+5d2d8d8 was Thanh Le, 5 days ago, message: more error message when user do not input any number in remove amount field!
+68133fc was Thanh Le, 5 days ago, message: fix error message when user input negative number in remove stock function.(2nd try) move User.findById function to line 182 from line 197.
+f928cb2 was Thanh Le, 5 days ago, message: fix error message when user input negative number in remove stock function.
+6364206 was Thanh Le, 5 days ago, message: add more error messages to notify the user when they add negative number in remove stock function.
+45b4f28 was Thanh Le, 5 days ago, message: add more error messages to notify the user when they add negative number in adding stock function.
+40a7db1 was Thanh Le, 5 days ago, message: more meaning full error message for user.
+eab71ed was Thanh Le, 5 days ago, message: remove undefined element line 40 in app.js
+a5c2a99 was Thanh Le, 5 days ago, message: remove unexpected token{ when rendering to stockView page.
+5f8890e was Thanh Le, 5 days ago, message: Add error line for user to know the error.
+190b32a was Thanh Le, 5 days ago, message: Fix create account Password where the password is false but database still save account(6th try).add isTrue= false for every false password scenario.
+65e913d was Thanh Le, 5 days ago, message: Fix create account Password where the password is false but database still save account(5th try).
+5cfa6b1 was Thanh Le, 5 days ago, message: Fix create account Password where the password is false but database still save account(4th try). Logic checkPass function add 2 checking parameters: password and retypedPassword.
+55e3c67 was Thanh Le, 5 days ago, message: Fix create account Password where the password is false but database still save account(3rd try). Logic checkPass function
+f49779b was Thanh Le, 5 days ago, message: Fix create account Password where the password is false but database still save account(2nd try).
+23ba6d7 was Thanh Le, 5 days ago, message: Fix create account Password where the password is false but database still save accountgit add .git add .
+c2c549c was Thanh Le, 5 days ago, message: Fix create account password
+a7db99b was Thanh Le, 8 days ago, message: Add boundary that user cannot input negative number in addStockInformation if the stock is new!
+d2f89dc was Thanh Le, 8 days ago, message: Add boundary that user cannot input negative number in delete stock information!
+f13ab64 was Thanh Le, 8 days ago, message: Add boundary that user cannot input neg in adding Stock
+1e4edbe was Thanh Le, 8 days ago, message: Change username
+289383a was Thanh Le, 8 days ago, message: Change equation 2nd the priceAmount
+b2ac90d was Thanh Le, 8 days ago, message: Change equation
+1c22977 was Thanh Le, 8 days ago, message: Change GOOGLE callbasckURL
+56b9ec8 was Thanh Le, 8 days ago, message: Change database directory
+11360e4 was Thanh Le, 8 days ago, message: Code to deploy

@@ -1,20 +1,26 @@
+//initialize router
 const router = require('express').Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./userModel/user_model');
+
 //add googleUser logout
 router.get('/logout', (req,res)=>{
   req.logout();
   res.redirect('/');
 });
+
+//get googleUser information
 router.get('/google',passport.authenticate('google',{
-  //get googleUser information
   scope: ['email']
 }));
+
 //reditect user to stockView page or their stock portfolio
 router.get('/google/redirect', passport.authenticate('google'),(req, res)=>{
   res.redirect('/stockView');
 });
+
+//redirect user to login page
 router.get('/fail', (req, res)=>{
   res.render('login', {title: 'Log Into Your Account', error:'Account has not registered or Wrong Password'});
 });
@@ -23,6 +29,7 @@ router.post('/loging', passport.authenticate('local',{successRedirect:'/stockVie
 
 //local user register account
 router.post('/register', function(req,res){
+
 //initializing some attribute from the user
   var rePass = req.body.rePass;
   var accountName = req.body.accountName;

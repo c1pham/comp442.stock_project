@@ -1,8 +1,8 @@
-
 <h1 class="center" name='username'>Hello {{User}}!</h1>
 <br>
+<form id='logout' action='/auth/logout' method='GET'>
 <button id="logout">Logout</button>
-
+</form>
 <main class="container">
   <div class="row">
     <div class="col-lg-1"></div>
@@ -18,7 +18,7 @@
           <input type="text" id="price" placeholder="Ex. 100.13" name='price'><br><br>
           <input type="submit" id="submit">
       </form> <br>
-    </div> 
+    </div>
     ​
     <div class="col-lg-2"></div>
 
@@ -68,10 +68,8 @@
 <script>
 var error = $("#error");
 error.css("color", "red");
-
 $(document).ready(function(){
     var cells = $(".cellPercent");
-
     for (i = 0 ; i < cells.length; i++) {
       console.log(cells[i].html);
       if (parseFloat(cells[i].innerHTML) > 0) {
@@ -84,17 +82,11 @@ $(document).ready(function(){
         cell.style.color = "red";
       }
     }
-
     var priceCells = $(".cellPrices");
     for (i = 0 ; i < priceCells.length; i++) {
       var cell = priceCells[i];
       cell.innerHTML = parseFloat(cell.innerHTML.trim()).toFixed(2);
     }
-
     $('#myTable').DataTable();
-
-    $("#logout").click(function(){
-      location.replace("/login");
-    });
 });
 </script>

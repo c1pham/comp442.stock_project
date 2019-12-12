@@ -1,4 +1,5 @@
 require('dotenv').config();
+//initialize all packages need to make the website works
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,11 +12,10 @@ const mongo = require('mongodb').MongoClient;
 const checkStock = require('stock-ticker-symbol');
 const axios = require('axios');
 const fetch = require('node-fetch');
+//initialize package for calling python script
 const spawn = require('child_process').spawn;
-//const Promise = require('promise');
-//const stockData = require('stock-data.js');
-//var session = require('express-session');
-//var flash = require('express-flash-messages');
+
+//running User script and Stock information before using the route
 const User = require('./createPassAuth/userModel/user_model');
 const Stock = require('./createPassAuth/userModel/user_model');
 //all the routers
@@ -36,6 +36,7 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -89,6 +90,7 @@ app.post('/submit',function(req, res){
       if(Number.isInteger(Number(stockAmount))===true){
         //check if the stockAmount and stockPrice are positive
         if(Number(stockAmount)>0 && Number(stockPrice)>0){
+        //algorithm for adjusting price and amount
         var priceAdjusted = ((Number(stockAmount)*Number(stockPrice)) + (req.user.CompanyBought[index].quantity * req.user.CompanyBought[index].prices))/(Number(stockAmount) + req.user.CompanyBought[index].quantity);
         var amountAdjusted = Number(stockAmount) + req.user.CompanyBought[index].quantity;
 
@@ -111,19 +113,22 @@ app.post('/submit',function(req, res){
         });
       }
       else{
+        //display error message if user put negative number in Stock Amount box in adding stock information function
         res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Cannot input negative numbers!!!'});
       }
  }
   else{
+      //display error message if user put float number in Stock Amount box in adding stock information function
       res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Stock Amount must be integer'});
     }
 }
     else{
-      //console.log('Number error');
+      //display error message if user submit an empty field or not a number format in any kinds of stock
       res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Some fields are missing or at least one field is not a number'});
     }
   }
-  else{//if the user input new stock. Do all of these commands.
+  else{
+  //if the user input new stock. Do all of these commands.
   //Checking the user stock symbols is the real stock Symbol on webpage.
   if(checkStock.lookup(stockSymbol) !==null){
     const stockPrice = req.body.price;
@@ -151,28 +156,30 @@ app.post('/submit',function(req, res){
             }
           });
         }else{
+            //display message to user if they input negative number in anykind of boxes in adding stock function!!
             res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Cannot input negative numbers!!!'});
         }
       }
       else{
+        //display message to user if they input wrong number format in Stock Amount!!
         res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Stock Amount must be integer'});
       }
     }
     else{
-      //console.log('One of the field is empty or not a number');
+      //display message to user if user input wrong numbers or put empty field in amount, price field in adding stock function
       res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Amount, price field is empty or not a number!!!!'});
     }
   }
   else{
-    //console.log('Stock has not found!!!');
+    //display message to user if the stock ticker or stock name is not existed
     res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Stock has not found!!!'});
   }
 }
 });
 
-
+//Deleting route
 app.post('/del', function(req, res){
-
+  //getting user name from Database to print on the page
   var user =""
   if (req.user.userName === undefined)
   {
@@ -181,23 +188,33 @@ app.post('/del', function(req, res){
   else{
     user = req.user.userName;
   }
+  //getting stock information to delete
   const stockSymbol = req.body.symbol;
   const stockHolder = req.user.CompanyBought;
+  //find whether the stock name that user put in is in the stockArray
   const inde = findStock(stockHolder, stockSymbol.toUpperCase());
+
+  //if the inde equals to -1 which means that there is no stock in the stockArray
   if(inde===-1){
+    //display error message that Stock is not existed in the user profile.
     res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Stock not existed in your profile!!!'});
   }
   else{
+    //check if the box amount in delete stock function is empty.
     if(req.body.amount!="")
     {
+    //check if the input amount is a Number.
     if (isNaN(req.body.amount)!==true)
     {
+      //check if the input amount is in an integer form.
       if(Number.isInteger(Number(req.body.amount))===true){
+      //check if the input amount is positive
       if(Number(req.body.amount)>=0){
         stockHolder[inde].quantity = stockHolder[inde].quantity - req.body.amount;
         if(stockHolder[inde].quantity<=0){
           delete stockHolder[inde];
         }
+        //save the new stock amount to the user
         User.findById(req.user.id, function(err,foundUser){
           if(err){
             console.log(err);
@@ -212,22 +229,26 @@ app.post('/del', function(req, res){
         });
       }
       else{
+        //display error message if user put negative number in amount box
           res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Cannot input negative numbers!!!'});
       }
     }else{
+      //display error message if user put float number in the amount box
       res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Stock Amount must be integer'});
     }
     }
     else{
+      //display error message if user put something not an integer number
       res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'The amount remove is not a number'});
     }
   }else{
+    //display error message the amount field is empty
     res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'The amount remove field is empty!!'});
   }
 }
 });
 
-
+//Updating stock route
 app.post('/update', function(req,res){
     var user =""
     if (req.user.userName === undefined)
@@ -242,187 +263,62 @@ app.post('/update', function(req,res){
       res.render('stockView',{User:user, rows: req.user.CompanyBought, title: 'Your stock portfolio', error:'Sorry '+' . You do not have any stock to update!!'});
     }
     else{
+      //getting all of the stock that user has in order to update.
       var stockS = [];
       for(iter = 0; iter<stockHolder.length;++iter){
         stockS.push(stockHolder[iter].stock);
-      }
+        }
+      //initialize all of the needed varibles
       var mess='';
       var obj=[];
-      var process = spawn('python',['./test.py', stockS]);
-      process.stdout.on('data', function(data){
-        mess +=data.toString();
+
+      //calling python script to get the real-time stock price
+      var process = spawn('python', ["./test.py", stockS]);
+
+      //retrieving data from the python script
+      process.stdout.on('data', function (data) {
+          mess += data.toString();
       });
+
+      //processing the retrieve data
       process.stdout.on('end', function(){
-        var str = mess
-        str = mess.slice(1,-3);
-        str = str.split(',');
-        for (iter = 0; iter<stockHolder.length;++iter){
+        //put mess (mess is a string data type) which hold every real-time stock prices to varible name str
+          var str = mess
+          //mess format is like ['123',' 1233', ' 3221'] to eleminate []
+          str = mess.slice(1, -3);
+          //split string element into individual array of items like this ['123',' 1233', ' 3221'] this is an array type not string type like previous line
+          str = str.split(',');
+
+          //looping over each item to update the percentage change
+          for (iter = 0; iter < stockHolder.length; ++iter){
           var prices = stockHolder[iter].prices;
           var stock = stockHolder[iter].stock;
           var quantity = stockHolder[iter].quantity;
-          var percentInterest = ((parseFloat(str[iter])/prices)-1)*100;
+            // please look at the format in 289
+              if (iter === 0) {
+                  var percentInterest = ((parseFloat(str[iter].slice(1, -1)) / prices) - 1) * 100;
+              }
+              else {
+                  var percentInterest = ((parseFloat(str[iter].slice(2, -1)) / prices) - 1) * 100;
+              }
+          //initialize stock obj that has 4 attributes
           var abj = {stock:stock, prices:prices, quantity:quantity, percentInterest:percentInterest};
           obj.push(abj);
         }
+        //save all of the update stock in database
         User.findById(req.user.id, function(err,foundUser){
             if(err){
               console.log(err);
             }
             else{
-              if(foundUser)
+                if (foundUser)
+
                 foundUser.CompanyBought=obj;
                 foundUser.save();
                 res.redirect('/stockView');
               }
           });
       });
-
-      /*
-      for(iter = 0; iter<stockHolder.length;++iter){
-        var prices = stockHolder[iter].prices;
-        var stock = stockHolder[iter].stock;
-        var quantity = stockHolder[iter].quantity;
-        console.log(prices);
-        console.log(stock);
-        console.log(quantity+'asd');
-        var a = data[iter].then(function(result){
-            return await (((prices-result['price'])/result['price'])*100);
-          });
-          console.log(a);
-          /*
-          var obj = {stock:stock, prices:prices, quantity:quantity, percentInterest:percentInterest};
-          stockHolder[iter]=obj;
-
-      }
-      */
-      //console.log(stockHolder);
-      /*
-      for(iter = 0; iter<stockHolder.length;++iter){
-      if ((iter+1%5)===0){
-        symbol = symbol + stockHolder[iter].stock;
-        request('https://api.worldtradingdata.com/api/v1/stock?symbol='+symbol+'&api_token='+process.env.API, {json:true}, function(err,body){
-          if(err){return console.log(err);}
-          //console.log(body.body.data);
-          var updateStock = []
-          for(iter = 0; iter<5;++iter){
-            var percentInterest = (((stockHolder[iter].prices-body.body.data[iter]['price'])/body.body.data[iter]['price'])*100);
-            var obj = {stock:stockHolder[iter].stock, prices:stockHolder[iter].prices, quantity:stockHolder[iter].quantity, percentInterest:percentInterest};
-            updateStock.push(obj);
-          }
-          User.findById(req.user.id, function(err,foundUser){
-              if(err){
-                console.log(err);
-              }
-              else{
-                if(foundUser)
-                  foundUser.CompanyBought= updateStock;
-                  foundUser.save();
-                }
-            });
-          });
-        symbol = '';
-        User.findById(req.user.id, function(err,foundUser){
-            if(err){
-              console.log(err);
-            }
-            else{
-              if(foundUser)
-                foundUser.CompanyBought.forEach(element=>data.push(element));
-                console.log(data);
-              }
-          });
-      }
-      else if(iter === (stockHolder.length-1)){
-        symbol = symbol + stockHolder[iter].stock;
-        request('https://api.worldtradingdata.com/api/v1/stock?symbol='+symbol+'&api_token='+process.env.API, {json:true}, function(err,body){
-          if(err){return console.log(err);}
-          //console.log(body.body.data);
-          var updateStock = []
-          for(iter = 0; iter<data.length;++iter){
-            var percentInterest = (((stockHolder[iter].prices-body.body.data[iter]['price'])/body.body.data[iter]['price'])*100);
-            var obj = {stock:stockHolder[iter].stock, prices:stockHolder[iter].prices, quantity:stockHolder[iter].quantity, percentInterest:percentInterest};
-            updateStock.push(obj);
-          }
-          User.findById(req.user.id, function(err,foundUser){
-              if(err){
-                console.log(err);
-              }
-              else{
-                if(foundUser)
-                  foundUser.CompanyBought= updateStock;
-                  foundUser.save();
-                }
-            });
-          });
-        symbol = '';
-        User.findById(req.user.id, function(err,foundUser){
-            if(err){
-              console.log(err);
-            }
-            else{
-              if(foundUser)
-                foundUser.CompanyBought.forEach(element=>data.push(element));
-                console.log(data);
-              }
-          });
-      }
-      else{
-        symbol = symbol + stockHolder[iter].stock +',';
-      }
-      User.findById(req.user.id, function(err,foundUser){
-          if(err){
-            console.log(err);
-          }
-          else{
-            if(foundUser)
-              foundUser.CompanyBought= data;
-              foundUser.save();
-              res.redirect('/stockView');
-            }
-        })
-        /*
-        User.findById(req.user.id, function(err,foundUser){
-            if(err){
-              console.log(err);
-            }
-            else{
-              if(foundUser)
-                foundUser.CompanyBought= stockHolder;
-                foundUser.save();
-                res.redirect('/stockView');
-              }
-          });
-      });
-      */
-
-/*
-      request('https://api.worldtradingdata.com/api/v1/stock?symbol='+symbol+'&api_token='+process.env.API, {json:true}, function(err,body){
-        if(err){return console.log(err);}
-        //console.log(body.body.data);
-        data = body.body.data;
-        for(iter = 0; iter<stockHolder.length;++iter){
-
-      //    console.log('https://api.worldtradingdata.com/api/v1/stock?symbol='+symbol+'&api_token='+process.env.API);
-        //  console.log(body.body.data);
-        }
-
-          var percentInterest = (((stockHolder[iter].prices-body.body.data[iter]['price'])/body.body.data[iter]['price'])*100);
-          var obj = {stock:stockHolder[iter].stock, prices:stockHolder[iter].prices, quantity:stockHolder[iter].quantity, percentInterest:percentInterest};
-          stockHolder[iter] = obj;
-        }
-        User.findById(req.user.id, function(err,foundUser){
-            if(err){
-              console.log(err);
-            }
-            else{
-              if(foundUser)
-                foundUser.CompanyBought= stockHolder;
-                foundUser.save();
-                res.redirect('/stockView');
-              }
-          });
-
-      });*/
     }
 });
 
