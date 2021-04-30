@@ -39,7 +39,7 @@ requests-html==0.10.0
 six==1.13.0
 soupsieve==1.9.5
 tqdm==4.39.0
-urllib3==1.25.3
+urllib3==1.25.8
 virtualenv==16.7.7
 w3lib==1.21.0
 wcwidth==0.1.7
