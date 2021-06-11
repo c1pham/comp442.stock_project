@@ -43,7 +43,7 @@ urllib3==1.25.3
 virtualenv==16.7.7
 w3lib==1.21.0
 wcwidth==0.1.7
-websockets==8.1
+websockets==9.1
 worldtradingdata==0.1.1
 yahoo-fin==0.8.2
 zipp==0.6.0
